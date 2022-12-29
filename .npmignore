@@ -1,0 +1,7 @@
+.github/
+coverage/
+test/
+.eslintignore
+.eslintrc.yml
+.mocharc.json
+.prettierrc

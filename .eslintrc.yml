@@ -1,0 +1,12 @@
+root: true
+env:
+  mocha: true
+extends:
+  - standard
+  - prettier
+rules:
+  no-var: off
+  prettier/prettier:
+    - error
+plugins:
+  - prettier

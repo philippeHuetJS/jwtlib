@@ -1,0 +1,51 @@
+name: ci
+
+on:
+  push:
+    branch: master
+  pull_request:
+    branch: master
+
+env:
+  KEY: '${{ secrets.KEY }}'
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node: [18]
+
+    name: jwtlib (NodeJS ${{ matrix.node }})
+
+    steps:
+    - name: Checkout Git repository
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.ref }}
+
+    - name: Setup NodeJS environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node }}
+
+    - name: npm install
+      run: |
+        npm install
+
+    - name: npm run lint
+      run: |
+        npm run lint
+
+    - name: npm run test
+      run: |
+        npm run test
+
+    - name: Fetch Mocha report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: report
+        path: 'coverage'
